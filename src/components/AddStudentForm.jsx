@@ -8,8 +8,11 @@ const AddStudentForm = ({ onClose, onSubmit }) => {
     courses: [],
     dateJoined: new Date().toISOString().split('T')[0],
     lastLogin: new Date().toISOString().split('T')[0],
-    status: 'Active'
+    status: 'Active',
+    image: null
   });
+
+  const [previewUrl, setPreviewUrl] = useState(null);
 
   const cohortOptions = ["AY 2024-25", "AY 2023-24", "AY 2022-23"];
   const courseOptions = ["CBSE 9 Math", "CBSE 9 Science", "CBSE 9 English", "CBSE 10 Math", "CBSE 10 Science"];
@@ -31,9 +34,41 @@ const AddStudentForm = ({ onClose, onSubmit }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFormData(prev => ({
+        ...prev,
+        image: file
+      }));
+
+      // Create preview URL
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewUrl(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit(formData);
+    
+    // Create FormData object to handle file upload
+    const submitData = new FormData();
+    submitData.append('name', formData.name);
+    submitData.append('cohort', formData.cohort);
+    formData.courses.forEach(course => {
+      submitData.append('courses', course);
+    });
+    submitData.append('dateJoined', formData.dateJoined);
+    submitData.append('lastLogin', formData.lastLogin);
+    submitData.append('status', formData.status);
+    if (formData.image) {
+      submitData.append('image', formData.image);
+    }
+
+    onSubmit(submitData);
     onClose();
   };
 
@@ -51,6 +86,39 @@ const AddStudentForm = ({ onClose, onSubmit }) => {
         </div>
         
         <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Image Upload */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Profile Image
+            </label>
+            <div className="mt-1 flex items-center space-x-4">
+              <div className="w-24 h-24 border rounded-full overflow-hidden">
+                {previewUrl ? (
+                  <img 
+                    src={previewUrl} 
+                    alt="Preview" 
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+                    <span className="text-gray-400">No image</span>
+                  </div>
+                )}
+              </div>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                className="block w-full text-sm text-gray-500
+                  file:mr-4 file:py-2 file:px-4
+                  file:rounded-full file:border-0
+                  file:text-sm file:font-semibold
+                  file:bg-blue-50 file:text-blue-700
+                  hover:file:bg-blue-100"
+              />
+            </div>
+          </div>
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Student Name
