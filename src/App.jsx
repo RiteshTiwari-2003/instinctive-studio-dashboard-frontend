@@ -1,8 +1,8 @@
+import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import MainContent from './components/MainContent';
-import TestApi from './components/TestApi';
 
 function App() {
   return (
@@ -10,11 +10,16 @@ function App() {
       <Sidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header />
-        <Routes>
-          <Route path="/" element={<MainContent />} />
-          <Route path="/students" element={<MainContent />} />
-          <Route path="/test" element={<TestApi />} />
-        </Routes>
+        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
+          <Routes>
+            <Route path="/" element={<MainContent />} />
+            <Route path="/students" element={<MainContent />} />
+            <Route path="/profile" element={<MainContent />} />
+            <Route path="/courses" element={<MainContent />} />
+            <Route path="/assignments" element={<MainContent />} />
+            <Route path="/grades" element={<MainContent />} />
+          </Routes>
+        </main>
       </div>
     </div>
   );
