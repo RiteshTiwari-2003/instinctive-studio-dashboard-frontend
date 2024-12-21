@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
-import { FaBell, FaEnvelope, FaChevronDown, FaCamera } from 'react-icons/fa';
+import { FaBell, FaEnvelope, FaChevronDown, FaCamera, FaSearch } from 'react-icons/fa';
 import { api } from '../services/api';
-import adminDefaultImage from '../assets/images/admin.jpg';
+import adminDefaultImage from '../assets/images/instinctiveceo.jpg';
 
 const Header = () => {
   const academicYears = ["AY 2024-25", "AY 2023-24", "AY 2022-23"];
@@ -33,16 +33,19 @@ const Header = () => {
   return (
     <header className="bg-white shadow-md p-4">
       <div className="flex justify-between items-center">
-        <div className="flex-1 max-w-xl">
+        <div className="flex-1 max-w-xl mr-4">
           <div className="relative">
             <input
               type="search"
               placeholder="Search..."
-              className="w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 pr-10 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
+            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+              <FaSearch className="w-4 h-4" />
+            </div>
           </div>
         </div>
-        <div className="flex items-center space-x-6">
+        <div className="flex items-center space-x-4">
           <button className="text-gray-600 hover:text-gray-800">
             <FaBell className="w-5 h-5" />
           </button>
@@ -54,12 +57,9 @@ const Header = () => {
               <img
                 src={adminImage}
                 alt="VISHAL PULIKOTTIL"
-                className="w-10 h-10 rounded-full cursor-pointer"
+                className="w-8 h-8 rounded-full object-cover cursor-pointer"
                 onClick={handleImageClick}
               />
-              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                <FaCamera className="text-white text-sm" />
-              </div>
               <input
                 type="file"
                 ref={fileInputRef}
@@ -67,29 +67,12 @@ const Header = () => {
                 accept="image/*"
                 onChange={handleImageChange}
               />
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                <FaCamera className="text-white text-xs" />
+              </div>
             </div>
             <span className="text-gray-700 font-medium">VISHAL PULIKOTTIL</span>
-          </div>
-        </div>
-      </div>
-      
-      <div className="flex justify-between items-center mt-4">
-        <div className="flex space-x-4">
-          <div className="relative">
-            <select className="appearance-none bg-white border rounded-lg px-4 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500">
-              {academicYears.map((year) => (
-                <option key={year} value={year}>{year}</option>
-              ))}
-            </select>
-            <FaChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500" />
-          </div>
-          <div className="relative">
-            <select className="appearance-none bg-white border rounded-lg px-4 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500">
-              {classes.map((cls) => (
-                <option key={cls} value={cls}>{cls}</option>
-              ))}
-            </select>
-            <FaChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500" />
+            <FaChevronDown className="w-4 h-4 text-gray-500" />
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { api } from '../services/api';
-import adminDefaultImage from '../assets/images/admin.jpg';
+import adminDefaultImage from '../assets/images/instinctiveceo.jpg';
 
 const AdminImageUpload = () => {
   const [selectedFile, setSelectedFile] = useState(null);
