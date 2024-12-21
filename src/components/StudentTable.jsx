@@ -1,6 +1,16 @@
 import React from 'react';
 
-const StudentTable = ({ students }) => {
+const StudentTable = ({ students, searchQuery }) => {
+  const isRowMatching = (student) => {
+    if (!searchQuery) return false;
+    const query = searchQuery.toLowerCase();
+    return (
+      student.name.toLowerCase().includes(query) ||
+      student.cohort.toLowerCase().includes(query) ||
+      student.courses.some(course => course.toLowerCase().includes(query))
+    );
+  };
+
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full divide-y divide-gray-200">
@@ -17,7 +27,12 @@ const StudentTable = ({ students }) => {
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {students.map((student) => (
-            <tr key={student.id} className="hover:bg-gray-50">
+            <tr 
+              key={student.id} 
+              className={`hover:bg-gray-50 ${
+                isRowMatching(student) ? 'bg-yellow-50' : ''
+              }`}
+            >
               <td className="px-6 py-4 whitespace-nowrap">
                 <div className="w-12 h-12 rounded-full overflow-hidden">
                   {student.imageUrl ? (
