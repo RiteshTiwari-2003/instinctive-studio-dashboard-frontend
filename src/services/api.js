@@ -38,4 +38,23 @@ export const api = {
     if (!response.ok) throw new Error('Failed to create course');
     return response.json();
   },
+
+  // Admin
+  async uploadAdminImage(file) {
+    const formData = new FormData();
+    formData.append('image', file);
+
+    const response = await fetch(`${API_URL}/admin/upload-image`, {
+      method: 'POST',
+      body: formData,
+    });
+    if (!response.ok) throw new Error('Failed to upload admin image');
+    return response.json();
+  },
+
+  async getAdminImage(id) {
+    const response = await fetch(`${API_URL}/admin/image/${id}`);
+    if (!response.ok) throw new Error('Failed to get admin image');
+    return response.json();
+  },
 };

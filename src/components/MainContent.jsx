@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import StudentTable from './StudentTable';
 import AddStudentForm from './AddStudentForm';
+import AdminImageUpload from './AdminImageUpload';
 
 const MainContent = () => {
   const [showAddForm, setShowAddForm] = useState(false);
@@ -18,8 +19,21 @@ const MainContent = () => {
     setShowAddForm(false);
   };
 
-  // Only show student content on the students page or dashboard
+  // Show admin content on the admin page
+  const showAdminContent = location.pathname === '/admin';
+  // Show student content on the students page or dashboard
   const showStudentContent = location.pathname === '/students' || location.pathname === '/';
+
+  if (showAdminContent) {
+    return (
+      <div className="p-6">
+        <div className="max-w-7xl mx-auto">
+          <h1 className="text-2xl font-semibold text-gray-900 mb-6">Admin Dashboard</h1>
+          <AdminImageUpload />
+        </div>
+      </div>
+    );
+  }
 
   if (!showStudentContent) {
     return null;
