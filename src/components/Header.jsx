@@ -1,11 +1,12 @@
 import React, { useState, useRef } from 'react';
 import { FaBell, FaEnvelope, FaChevronDown, FaCamera } from 'react-icons/fa';
 import { api } from '../services/api';
+import adminDefaultImage from '../assets/images/admin.jpg';
 
 const Header = () => {
   const academicYears = ["AY 2024-25", "AY 2023-24", "AY 2022-23"];
   const classes = ["CBSE 9", "CBSE 10", "CBSE 11", "CBSE 12"];
-  const [adminImage, setAdminImage] = useState('https://via.placeholder.com/40');
+  const [adminImage, setAdminImage] = useState(adminDefaultImage);
   const fileInputRef = useRef(null);
 
   const handleImageClick = () => {
@@ -19,9 +20,12 @@ const Header = () => {
         const response = await api.uploadAdminImage(file);
         if (response.imageUrl) {
           setAdminImage(`${import.meta.env.VITE_API_URL}${response.imageUrl}`);
+        } else {
+          setAdminImage(adminDefaultImage);
         }
       } catch (error) {
         console.error('Failed to upload image:', error);
+        setAdminImage(adminDefaultImage);
       }
     }
   };
