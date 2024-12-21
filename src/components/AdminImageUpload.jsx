@@ -1,9 +1,10 @@
 import React, { useState, useRef } from 'react';
 import { api } from '../services/api';
+import adminDefaultImage from '../assets/images/admin.jpg';
 
 const AdminImageUpload = () => {
   const [selectedFile, setSelectedFile] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(adminDefaultImage);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState(null);
   const fileInputRef = useRef(null);
@@ -30,7 +31,7 @@ const AdminImageUpload = () => {
       console.log('Upload successful:', response);
       // Clear the form
       setSelectedFile(null);
-      setPreviewUrl(null);
+      setPreviewUrl(adminDefaultImage);
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
       }
