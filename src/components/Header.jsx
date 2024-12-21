@@ -1,9 +1,30 @@
-import React from 'react';
-import { FaBell, FaEnvelope, FaChevronDown } from 'react-icons/fa';
+import React, { useState, useRef } from 'react';
+import { FaBell, FaEnvelope, FaChevronDown, FaCamera } from 'react-icons/fa';
+import { api } from '../services/api';
 
 const Header = () => {
   const academicYears = ["AY 2024-25", "AY 2023-24", "AY 2022-23"];
   const classes = ["CBSE 9", "CBSE 10", "CBSE 11", "CBSE 12"];
+  const [adminImage, setAdminImage] = useState('https://via.placeholder.com/40');
+  const fileInputRef = useRef(null);
+
+  const handleImageClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleImageChange = async (event) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      try {
+        const response = await api.uploadAdminImage(file);
+        if (response.imageUrl) {
+          setAdminImage(`${import.meta.env.VITE_API_URL}${response.imageUrl}`);
+        }
+      } catch (error) {
+        console.error('Failed to upload image:', error);
+      }
+    }
+  };
 
   return (
     <header className="bg-white shadow-md p-4">
@@ -25,12 +46,25 @@ const Header = () => {
             <FaEnvelope className="w-5 h-5" />
           </button>
           <div className="flex items-center space-x-3">
-            <img
-              src="https://via.placeholder.com/40"
-              alt="Ritesh Tiwari"
-              className="w-10 h-10 rounded-full"
-            />
-            <span className="text-gray-700 font-medium">Ritesh Tiwari</span>
+            <div className="relative group">
+              <img
+                src={adminImage}
+                alt="VISHAL PULIKOTTIL"
+                className="w-10 h-10 rounded-full cursor-pointer"
+                onClick={handleImageClick}
+              />
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                <FaCamera className="text-white text-sm" />
+              </div>
+              <input
+                type="file"
+                ref={fileInputRef}
+                className="hidden"
+                accept="image/*"
+                onChange={handleImageChange}
+              />
+            </div>
+            <span className="text-gray-700 font-medium">VISHAL PULIKOTTIL</span>
           </div>
         </div>
       </div>
